@@ -294,7 +294,7 @@ const UserForm = ({ initialData = null, mode = "add", onClose, onSuccess }) => {
       const url =
         mode === "edit"
           ? `${import.meta.env.VITE_BACKEND_URI}/forms/${initialData.id || initialData._id}`
-          : `${import.meta.env.VITE_BACKEND_URI}://localhost:5000/forms`;
+          : `${import.meta.env.VITE_BACKEND_URI}/forms`;
 
       const method = mode === "edit" ? "PUT" : "POST";
 
