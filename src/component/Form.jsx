@@ -293,8 +293,8 @@ const UserForm = ({ initialData = null, mode = "add", onClose, onSuccess }) => {
 
       const url =
         mode === "edit"
-          ? `http://localhost:5000/forms/${initialData.id || initialData._id}`
-          : "http://localhost:5000/forms";
+          ? `${import.meta.env.VITE_BACKEND_URI}/forms/${initialData.id || initialData._id}`
+          : `${import.meta.env.VITE_BACKEND_URI}://localhost:5000/forms`;
 
       const method = mode === "edit" ? "PUT" : "POST";
 
@@ -847,18 +847,29 @@ const UserForm = ({ initialData = null, mode = "add", onClose, onSuccess }) => {
                   <Controller
                     name="totalExperience"
                     control={control}
+                    rules={{
+                      min: 5,
+                      max: 35,
+                      validate: (value) =>
+                        Number.isInteger(Number(value)) || "Must be an integer",
+                    }}
                     render={({ field }) => (
                       <input
                         {...field}
                         type="number"
-                        step="0.1"
+                        step="1"
                         placeholder="Enter experience"
                         min={5}
                         max={35}
                         className={inputClass}
+                        onInput={(e) => {
+                          e.target.value = e.target.value.replace(/\D/g, ""); // strip non-digits
+                          field.onChange(e);
+                        }}
                       />
                     )}
                   />
+
                 </div>
               </div>
             </div>
